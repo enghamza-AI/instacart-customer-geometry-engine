@@ -99,7 +99,7 @@ Customers: 200,000+
 
 This is the actual data Instacart-style companies use for customer segmentation and recommendation. Not a toy dataset.
 
-> Download from: https://www.kaggle.com/c/instacart-market-basket-analysis
+> Download from: https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis
 > Place CSVs in the `data/` folder before running.
 
 ---
