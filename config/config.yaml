@@ -1,0 +1,82 @@
+# config.yaml
+data:
+  # Paths to raw Instacart CSV files (relative to project root)
+  orders_path:            "data/orders.csv"
+  order_products_path:    "data/order_products__prior.csv"
+  products_path:          "data/products.csv"
+  aisles_path:            "data/aisles.csv"
+  departments_path:       "data/departments.csv"
+
+  # How many customers to sample for development runs.
+  # 3M orders = ~200k customers. 50k is fast for iteration.
+  sample_size: 50000
+
+  random_seed: 42
+
+  # If true, load_data.py prints shape + memory usage after loading.
+
+  verbose: true
+
+features:
+  # These are the per-customer features we engineer from raw orders.
+
+  include:
+    - total_orders           # continuous — how many orders placed
+    - avg_basket_size        # continuous — avg items per order
+    - reorder_rate           # continuous — fraction of items that are reorders
+    - avg_days_between_orders  # continuous — shopping frequency
+    - organic_ratio          # continuous — fraction of items that are organic
+    - produce_flag           # binary    — ever bought from produce dept?
+    - dairy_flag             # binary    — ever bought from dairy dept?
+    - snack_flag             # binary    — ever bought from snack dept?
+    - frozen_flag            # binary    — ever bought from frozen dept?
+    - unique_products_count  # continuous — breadth of product variety
+
+  binary_ratio_threshold: 0.4
+
+
+oracle:
+
+  sparsity_threshold: 0.95
+
+
+  scale_variance_threshold: 10.0
+
+ 
+  correlation_threshold: 0.6
+
+  binary_ratio_threshold: 0.4
+
+
+metrics:
+  compute:
+    - euclidean
+    - manhattan
+    - cosine
+    - jaccard
+    - mahalanobis
+
+
+  mahalanobis_regularize: true
+  mahalanobis_reg_alpha: 1.0e-5  # regularization strength — tiny by default
+
+
+clustering:
+  algorithm: "kmeans"
+  n_clusters: 6     
+  random_seed: 42
+
+tsne:
+  n_components: 2       # always 2 for a 2D plot
+  perplexity: 30        # try 5–50; lower = focus on local structure
+  n_iter: 1000          # more iterations = more stable result, slower
+  learning_rate: 200    
+  random_seed: 42
+
+
+app:
+  title: "Customer Geometry Engine"
+  max_display_customers: 5000   
+                                 # cap what the app renders for speed
+  colormap: "tab10"             # matplotlib colormap for cluster colors
+  figure_dpi: 120
